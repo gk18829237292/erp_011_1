@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/report_1"
+        layout="@layout/list_item_expandable_report_child"/>
+    <com.gk.erp.view.NoScrollGridView
+        android:id="@+id/super_vise"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:columnWidth="70dp"
+        android:gravity="center"
+        android:numColumns="1"
+        android:horizontalSpacing="2.5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2.5dp"
+        />
+</LinearLayout>
