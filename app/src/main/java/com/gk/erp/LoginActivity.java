@@ -13,8 +13,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.gk.erp.app.App;
 import com.gk.erp.constants.Constants;
+import com.gk.erp.entry.UserEntry;
 import com.gk.erp.utils.CustomRequest;
+import com.gk.erp.utils.LoginUtils;
+import com.gk.erp.utils.ToastUtils;
 import com.gk.erp.view.FloatLabeledEditText;
+import com.gk.erp.view.MyProgressDialog;
 
 import org.json.JSONObject;
 
@@ -24,36 +28,33 @@ import java.util.Map;
 /**
  * 登录只是去获取基本的信息 不再做别的事
  */
-public class LoginActivity extends ActionBarActivity implements Response.Listener<JSONObject>,Response.ErrorListener{
+public class LoginActivity extends BaseActivity implements Response.Listener<JSONObject>,Response.ErrorListener{
 
-    private ProgressDialog pDialog;
 
     private FloatLabeledEditText loginText,passText;
     private TextView login;
-
     private String username,password;
-
     private Map<String,String> params;
+    private boolean mIsLastSuccess = false; //在上次登录成功的时候设置为true
+    private MyProgressDialog pDialog;
 
-    private boolean flag = false;
-
+    private static final String LOGIN_FLAG = "LOGIN_FLAG";
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        flag = getIntent().getBooleanExtra("flag",false);
-        if(flag){
+    public void initView() {
+        mIsLastSuccess = mSpref.getBoolean(LOGIN_FLAG,false);
+        if(mIsLastSuccess && App.getInstance().getUserEntry(mSpref) != null){
             show();
-            loginText.setText(App.getInstance().getAccount());
-            passText.setText(App.getInstance().getPassword());
         }else {
             autoLogin();
         }
     }
 
+    @Override
+    public void initData() {
+
+    }
+
     void init(){
-
-
         login = (TextView) findViewById(R.id.login);
         loginText = (FloatLabeledEditText) findViewById(R.id.txt_username);
         passText = (FloatLabeledEditText) findViewById(R.id.txt_password);
@@ -69,10 +70,7 @@ public class LoginActivity extends ActionBarActivity implements Response.Listene
                 }
             }
         });
-
-        pDialog = new ProgressDialog(LoginActivity.this);
-        pDialog.setMessage("登录中···");
-        pDialog.setCancelable(false);
+        pDialog = new MyProgressDialog(mContext,"登录中···",null);
     }
 
     private boolean checkAccount(){
@@ -96,7 +94,7 @@ public class LoginActivity extends ActionBarActivity implements Response.Listene
     }
 
     private void login(){
-        showDialog();
+        pDialog.show();
         params = new HashMap<>();
         params.put("account",username);
         params.put("password",password);
@@ -104,64 +102,62 @@ public class LoginActivity extends ActionBarActivity implements Response.Listene
         App.getInstance().addToRequestQueue(jsonReq);
     }
 
-    private void showDialog(){
-        if(flag &&  !pDialog.isShowing())
-            pDialog.show();
-    }
-    private void hidpDialog(){
-        if(flag && pDialog.isShowing())
-            pDialog.dismiss();
-    }
-
     @Override
     public void onErrorResponse(VolleyError error) {
-        if(flag)
-            Toast.makeText(getApplicationContext(),"登录失败 ",Toast.LENGTH_LONG).show();
-        else{
+        if(mIsLastSuccess) {
             setContentView(R.layout.activity_login);
             init();
-            Toast.makeText(getApplicationContext(),"自动登录失败",Toast.LENGTH_SHORT).show();
-            flag = true;
+            Toast.makeText(getApplicationContext(), "自动登录失败", Toast.LENGTH_SHORT).show();
+            mIsLastSuccess = false;
+        }else{
+            Toast.makeText(getApplicationContext(),"登录失败 : " + error.getMessage(),Toast.LENGTH_LONG).show();
         }
-        hidpDialog();
+        UserEntry.clearSpref(mSpref);
+        mSpref.put(LOGIN_FLAG,false);
+        pDialog.dismiss();
     }
 
     @Override
     public void onResponse(JSONObject response) {
-
-        if(App.getInstance().authorize(response,params)){
-            App.getInstance().saveData();
-            App.getInstance().readData();
-            Intent intent = null;
-            switch (App.getInstance().getType()){
-                case 0:case 1:
-                    intent = new Intent(getApplicationContext(),MainActivity.class);
-                    break;
-                case 2:
-                    intent = new Intent(getApplicationContext(),MainGuestActivity.class);
-                    break;
-            }
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }else{
-            if(flag)
-                Toast.makeText(getApplicationContext(),"登录失败 ",Toast.LENGTH_LONG).show();
-            else {
-                show();
-                Toast.makeText(getApplicationContext(), "自动登录失败", Toast.LENGTH_SHORT).show();
-                flag = true;
-            }
+        ToastUtils.showShortToast(mContext,"success");
+//        mSpref.put(LOGIN_FLAG,true);
+        UserEntry userEntry = UserEntry.getFromJson(response);
+        if(userEntry != null){//登录成功
+            App.getInstance().setUserEntry(userEntry);
+            mSpref.put(LOGIN_FLAG,true);
+            //做挑转
         }
-        hidpDialog();
+//        if(App.getInstance().authorize(response,params)){
+//            App.getInstance().saveData();
+//            App.getInstance().readData();
+//            Intent intent = null;
+//            switch (App.getInstance().getType()){
+//                case 0:case 1:
+//                    intent = new Intent(getApplicationContext(),MainActivity.class);
+//                    break;
+//                case 2:
+//                    intent = new Intent(getApplicationContext(),MainGuestActivity.class);
+//                    break;
+//            }
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+//        }else{
+//            if(flag)
+//                Toast.makeText(getApplicationContext(),"登录失败 ",Toast.LENGTH_LONG).show();
+//            else {
+//                show();
+//                Toast.makeText(getApplicationContext(), "自动登录失败", Toast.LENGTH_SHORT).show();
+//                flag = true;
+//            }
+//        }
+        pDialog.dismiss();
     }
 
     private void autoLogin(){
-        App.getInstance().readData();
-        username =App.getInstance().getAccount();
-        password = App.getInstance().getPassword();
-
+        UserEntry entry = App.getInstance().getUserEntry();
+        username = entry.getAccount();
+        password = entry.getPassword();
         login();
-
     }
 
     private void show(){
@@ -175,4 +171,8 @@ public class LoginActivity extends ActionBarActivity implements Response.Listene
         if(pDialog != null)
             pDialog.dismiss();
     }
+
+
+
+
 }
