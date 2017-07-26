@@ -1,11 +1,7 @@
 package com.gk.erp;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +26,7 @@ import java.util.Map;
  */
 public class LoginActivity extends BaseActivity implements Response.Listener<JSONObject>,Response.ErrorListener{
 
-
+    private static final String TAG = "LoginActivity";
     private FloatLabeledEditText loginText,passText;
     private TextView login;
     private String username,password;
@@ -41,20 +37,8 @@ public class LoginActivity extends BaseActivity implements Response.Listener<JSO
     private static final String LOGIN_FLAG = "LOGIN_FLAG";
     @Override
     public void initView() {
-        mIsLastSuccess = mSpref.getBoolean(LOGIN_FLAG,false);
-        if(mIsLastSuccess && App.getInstance().getUserEntry(mSpref) != null){
-            show();
-        }else {
-            autoLogin();
-        }
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    void init(){
+        setContentView(R.layout.activity_login);
+        pDialog = new MyProgressDialog(mContext,"登录中···",null);
         login = (TextView) findViewById(R.id.login);
         loginText = (FloatLabeledEditText) findViewById(R.id.txt_username);
         passText = (FloatLabeledEditText) findViewById(R.id.txt_password);
@@ -70,7 +54,15 @@ public class LoginActivity extends BaseActivity implements Response.Listener<JSO
                 }
             }
         });
-        pDialog = new MyProgressDialog(mContext,"登录中···",null);
+
+    }
+
+    @Override
+    public void initData() {
+        mIsLastSuccess = mSpref.getBoolean(LOGIN_FLAG,false);
+        if(mIsLastSuccess && App.getInstance().getUserEntry(mSpref) != null){
+            autoLogin();
+        }
     }
 
     private boolean checkAccount(){
@@ -106,7 +98,6 @@ public class LoginActivity extends BaseActivity implements Response.Listener<JSO
     public void onErrorResponse(VolleyError error) {
         if(mIsLastSuccess) {
             setContentView(R.layout.activity_login);
-            init();
             Toast.makeText(getApplicationContext(), "自动登录失败", Toast.LENGTH_SHORT).show();
             mIsLastSuccess = false;
         }else{
@@ -121,35 +112,19 @@ public class LoginActivity extends BaseActivity implements Response.Listener<JSO
     public void onResponse(JSONObject response) {
         ToastUtils.showShortToast(mContext,"success");
 //        mSpref.put(LOGIN_FLAG,true);
+        Log.d(TAG,"response is "+ response);
         UserEntry userEntry = UserEntry.getFromJson(response);
+
         if(userEntry != null){//登录成功
             App.getInstance().setUserEntry(userEntry);
             mSpref.put(LOGIN_FLAG,true);
-            //做挑转
+            userEntry.writeToSpref(mSpref);
+            mSpref.commit();
+            Log.d(TAG,"userEntry is " + userEntry.toString());
+            ToastUtils.showShortToast(mContext,"登录成功");
+        }else{//登录失败
+            ToastUtils.showShortToast(mContext,"登录失败");
         }
-//        if(App.getInstance().authorize(response,params)){
-//            App.getInstance().saveData();
-//            App.getInstance().readData();
-//            Intent intent = null;
-//            switch (App.getInstance().getType()){
-//                case 0:case 1:
-//                    intent = new Intent(getApplicationContext(),MainActivity.class);
-//                    break;
-//                case 2:
-//                    intent = new Intent(getApplicationContext(),MainGuestActivity.class);
-//                    break;
-//            }
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//        }else{
-//            if(flag)
-//                Toast.makeText(getApplicationContext(),"登录失败 ",Toast.LENGTH_LONG).show();
-//            else {
-//                show();
-//                Toast.makeText(getApplicationContext(), "自动登录失败", Toast.LENGTH_SHORT).show();
-//                flag = true;
-//            }
-//        }
         pDialog.dismiss();
     }
 
@@ -158,11 +133,6 @@ public class LoginActivity extends BaseActivity implements Response.Listener<JSO
         username = entry.getAccount();
         password = entry.getPassword();
         login();
-    }
-
-    private void show(){
-        setContentView(R.layout.activity_login);
-        init();
     }
 
     @Override

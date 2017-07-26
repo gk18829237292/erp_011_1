@@ -84,7 +84,7 @@ public class UserEntry {
         String type = sprefUtils.getString("type","");
         String name = sprefUtils.getString("name","");
         String telNum = sprefUtils.getString("telNum","");
-        if(StringUtils.isListSpace(account,password,type,name,telNum)){
+        if(StringUtils.isListSpace(account,password,type)){
             return null;
         }
         return new UserEntry(account,password,type,telNum,name);
@@ -106,7 +106,7 @@ public class UserEntry {
             String type = jsonObject.getString("type");
             String name = jsonObject.getString("name");
             String telNum = jsonObject.getString("telNum");
-            if(!StringUtils.isListSpace(account,password,type,name,telNum)){
+            if(!StringUtils.isListSpace(account,password,type)){
                 userEntry = new UserEntry(account,password,type,telNum,name);
             }
         } catch (JSONException e) {
@@ -116,4 +116,6 @@ public class UserEntry {
         return userEntry;
 
     }
+
+
 }

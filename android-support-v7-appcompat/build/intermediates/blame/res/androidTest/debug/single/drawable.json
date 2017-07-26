@@ -28,12 +28,12 @@
         "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable\\abc_cab_background_top_material.xml"
     },
     {
-        "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_light.xml",
-        "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable\\abc_item_background_holo_light.xml"
-    },
-    {
         "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_btn_check_material.xml",
         "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable\\abc_btn_check_material.xml"
+    },
+    {
+        "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_light.xml",
+        "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable\\abc_item_background_holo_light.xml"
     },
     {
         "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_btn_radio_material.xml",

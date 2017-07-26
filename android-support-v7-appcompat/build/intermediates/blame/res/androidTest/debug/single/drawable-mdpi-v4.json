@@ -24,12 +24,12 @@
         "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
     },
     {
-        "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\abc_ab_share_pack_holo_dark.9.png",
-        "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\abc_ab_share_pack_holo_dark.9.png"
-    },
-    {
         "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\abc_textfield_default_mtrl_alpha.9.png",
         "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\abc_textfield_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\abc_ab_share_pack_holo_dark.9.png",
+        "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\abc_ab_share_pack_holo_dark.9.png"
     },
     {
         "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\abc_textfield_activated_mtrl_alpha.9.png",

@@ -10,8 +10,6 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.gk.erp.R;
-import com.gk.erp.entry.DepartEntry;
 import com.gk.erp.entry.TaskEntry;
 import com.gk.erp.entry.UserEntry;
 import com.gk.erp.utils.SprefUtils;
@@ -40,7 +38,9 @@ public class App extends Application{
 
     private UserEntry userEntry;
 
-
+    private String account,password, name,departName;
+    private int type;
+    private long departId = -1;
 
     @Override
     public void onCreate() {
@@ -140,5 +140,69 @@ public class App extends Application{
 
     public void setUserEntry(UserEntry userEntry) {
         this.userEntry = userEntry;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public long getDepartId() {
+        return departId;
+    }
+
+    public void setDepartId(long departId) {
+        this.departId = departId;
+    }
+
+    public String getDepartName() {
+        return departName;
+    }
+
+    public void setDepartName(String departName) {
+        this.departName = departName;
+    }
+
+    public static App getmInstance() {
+        return mInstance;
+    }
+
+    public static void setmInstance(App mInstance) {
+        App.mInstance = mInstance;
+    }
+
+    public RequestQueue getmRequestQueue() {
+        return mRequestQueue;
+    }
+
+    public void setmRequestQueue(RequestQueue mRequestQueue) {
+        this.mRequestQueue = mRequestQueue;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

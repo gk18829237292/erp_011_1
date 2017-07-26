@@ -1,11 +1,11 @@
 [
     {
-        "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_in_top.xml",
-        "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\anim\\abc_slide_in_top.xml"
-    },
-    {
         "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_fade_in.xml",
         "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\bundles\\debug\\res\\anim\\abc_slide_in_top.xml"
     },
     {
         "merged": "G:\\Android_new\\ERP001_1\\ERP001\\android-support-v7-appcompat\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_fade_out.xml",
